@@ -64,10 +64,4 @@ public class BackendLogin : MonoBehaviour
             Debug.Log("로그아웃 성공");
         }
     }
-
-
-    public void UpdateNickname(string nickname)
-    {
-        // TODO : 닉네임 변경 기능
-    }
 }
