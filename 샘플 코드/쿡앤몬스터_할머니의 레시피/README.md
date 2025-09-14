@@ -1,7 +1,9 @@
-# 🎮 쿡앤몬스터: 할머니의 레시피
-> 이븐아이 게임톤 (구글 플레이 런칭 예정작)
+# 🍴 쿡앤몬스터: 할머니의 레시피
+> 이븐아이 게임톤 (구글 플레이 런칭 예정작) <br>
 
-<br>
+['쿡앤몬스터: 할머니의 레시피' 프로젝트 상세 내용](https://github.com/Mekdlsdl/Game-Client-Programmer-Portfolio?tab=readme-ov-file#-%EC%BF%A1%EC%95%A4%EB%AA%AC%EC%8A%A4%ED%84%B0-%ED%95%A0%EB%A8%B8%EB%8B%88%EC%9D%98-%EB%A0%88%EC%8B%9C%ED%94%BC)
+
+<br><br>
 
 > [!NOTE]
 > 아래는 이름순으로 정렬한 각 폴더와 파일 설명입니다!
