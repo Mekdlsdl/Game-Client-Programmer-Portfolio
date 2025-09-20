@@ -48,7 +48,7 @@
 
 <br>
 
-## 🎮 Code-Eat
+## 🎮 Code-Eat ([상세내용](https://github.com/Mekdlsdl/Game-Client-Programmer-Portfolio/blob/main/DETAIL.md#-code-eat))
 
 > 졸업 프로젝트 용 게임 개발 (키보드, 게임 패드 / 최대 5인 멀티 플레이 가능)
 
