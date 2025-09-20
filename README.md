@@ -13,7 +13,9 @@
 
 ## 🍴 쿡앤몬스터: 할머니의 레시피 ([상세내용](https://github.com/Mekdlsdl/Game-Client-Programmer-Portfolio/blob/main/DETAIL.md#-%EC%BF%A1%EC%95%A4%EB%AA%AC%EC%8A%A4%ED%84%B0-%ED%95%A0%EB%A8%B8%EB%8B%88%EC%9D%98-%EB%A0%88%EC%8B%9C%ED%94%BC))
 
-> 이븐아이 게임톤 참가작
+> 이븐아이 게임톤 참가작 <br>
+> ( 2025.07.28 ~ 진행 중 )
+
 
 ### 사용 기술 및 언어
 - Unity, C#, 뒤끝, 안드로이드 스튜디오
@@ -34,7 +36,8 @@
 
 ## 🏭 Silo Manager ([상세내용](https://github.com/Mekdlsdl/Game-Client-Programmer-Portfolio/blob/main/DETAIL.md#-silo-manager))
 
-> ○○사료(주) 사일로(창고) 관리를 위한 애플리케이션 개발
+> ○○사료(주) 사일로(창고) 관리를 위한 애플리케이션 개발 <br>
+( 2023.05.04 ~ 2023.05.17 (이후 유지보수 진행 중) )
 
 ### 사용 기술 및 언어
 - Unity, C#, Firebase, 안드로이드 스튜디오
@@ -50,7 +53,8 @@
 
 ## 🎮 Code-Eat ([상세내용](https://github.com/Mekdlsdl/Game-Client-Programmer-Portfolio/blob/main/DETAIL.md#-code-eat))
 
-> 졸업 프로젝트 용 게임 개발 (키보드, 게임 패드 / 최대 5인 멀티 플레이 가능)
+> 졸업 프로젝트 용 게임 개발 (키보드, 게임 패드 / 최대 5인 멀티 플레이 가능) <br>
+( 2023.03.02 ~ 2023.06.21 )
 
 ### 사용 기술 및 언어
 - Unity, C#
@@ -64,8 +68,9 @@
 <br>
 
 ## 🪡 Skein of Revolution
-> 넥슨X멋쟁이사자처럼 해커톤 참가작 (기한 내 출시 완료)
-
+> 넥슨X멋쟁이사자처럼 해커톤 참가작 (기한 내 출시 완료) <br>
+( 2022.09.07 ~ 2022.12.16 )
+  
 ### 사용 기술 및 언어
 - Lua, 메이플스토리월드 메이커
 
