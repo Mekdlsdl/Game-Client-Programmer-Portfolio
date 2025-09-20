@@ -23,7 +23,7 @@
       </td>
       <td>
       <a>
- 🏭 [Silo Manager](https://github.com/Mekdlsdl/Game-Client-Programmer-Portfolio/blob/main/DETAIL.md#%EF%B8%8F-%EB%AC%B8%EB%8B%A4%EC%9D%B8-%ED%8F%AC%ED%8A%B8%ED%8F%B4%EB%A6%AC%EC%98%A4) <br>
+ 🏭 [Silo Manager](https://github.com/Mekdlsdl/Game-Client-Programmer-Portfolio/blob/main/DETAIL.md#-silo-manager) <br>
  
 > 🕒 [개발 및 운영](https://github.com/Mekdlsdl/Game-Client-Programmer-Portfolio/blob/main/DETAIL.md#-%EA%B0%9C%EB%B0%9C-%EB%B0%8F-%EC%9A%B4%EC%98%81) <br>
 📌 [느낀 점](https://github.com/Mekdlsdl/Game-Client-Programmer-Portfolio/blob/main/DETAIL.md#-%EB%8A%90%EB%82%80-%EC%A0%90) <br>
