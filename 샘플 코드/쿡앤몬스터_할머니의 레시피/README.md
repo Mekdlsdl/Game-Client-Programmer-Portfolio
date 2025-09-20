@@ -10,17 +10,27 @@
 
 <br>
   
-## ☁️ Backend : 서버 연동 관련 코드들 - 진행 중
-- BackendLogin : 구글 로그인 관련 코드
-- BackendManager : 뒤끝 초기화
+## ☁️ Backend : 서버 연동 관련 코드들
+- BackendLogin : 구글 로그인 및 이후 동작 관련 코드
+- BackendManager : 뒤끝 초기화 및 로그인 설정 관리
 - BackendRepo : 서버 조회 및 저장(유저 데이터) 관련 코드
+- UserData : 유저 데이터 정보, 조회 및 저장
+
+<br>
+
+## 👨🏻‍💼 Manager : 관리 스크립트들
+- AdsManager : 광고(애드몹) 연동 세팅 - 진행 중
+- LobbyManager : 메인화면 기능 연결 관련 코드
+- Managers : 전체적인 매니저 스트립트 관리
 
 <br>
   
 ## 🛠️ Setup : 정비 씬에서 쓰이는 코드들
+- ChapterSelectController : 챕터 및 스테이지 선택창 관련 코드
 - MenuTabController : 메뉴 설정 탭 관련 코드
 - RecipeItemView : 메뉴탭 목록 및 레시피 도감 목록 풀링 시 사용하는 코드
 - RecipeTapController : 레시피 도감(레시피 정보, 해금 가능한 탭) 관련 코드
+- SetUpController : 정비 씬의 전반적인 기능 관련 코드
 
 <br>
 
@@ -58,7 +68,5 @@
 <br>
 
 ## 🗂 그외 코드들
-- AdsManager : 광고(애드몹) 연동 세팅 - 진행 중
 - Barigate : 기지, 전투 장소 사이 바리게이트 관련 코드
 - ChangeSortingOrder : 기지 타일맵 SortingOrder 관련 코드 (ex. 벽 뒤에 플레이어 숨기)
-- LobbyManager : 메인화면 기능 연결 관련 코드

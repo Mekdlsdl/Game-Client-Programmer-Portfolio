@@ -25,14 +25,20 @@ public enum DataTableName
 
     //=============== 다중 행 ===============
     user_stageclear,    // 스테이지 클리어 관련 정보 (별, 최고기록 등)
-    multi_row           // 다중 행 테이블 개수 받을 때 사용 (multi_row - single_row - 1)
+    multi_row,          // 다중 행 테이블 개수 받을 때 사용 (multi_row - single_row - 1)
+
+    //=============== 로컬 ===============
+    user_settings,      // 세팅 값
+
+    //=============== 전체 ===============
+    all                 // 데이터 전체 로드 시에만 사용
 }
 
 public static class BackendRepo
 {
     // 다중 행 테이블 기본 값 (stageclear 하나 뿐이라,, 나중에 이름 수정될 것 예방)
-    // 이후에 추가된 다중 행 테이블은 호출 시 파라미터로 작성
-    private const string _defaultKeyName = "user_stageclear";
+    // 이후에 추가된 다중 행 테이블은 호출 시 적절한 key를 파라미터로 작성
+    private const string _defaultKeyName = "StageId";
 
 
     // ========= 설정값 =========
@@ -83,31 +89,44 @@ public static class BackendRepo
     // ======== High-level APIs ========
 
     /// 데이터 1행만 (다중 행 데이터도 필터링해서 하나만)
-    public static async Task<(bool ok, Dictionary<string, object> row)> GetOneAsync(
+    /// ex. 스테이지 데이터는 다중 행이지만 스테이지 하나만 불러오고 싶을 수 있음!
+    public static async Task<(bool ok, JsonData row)> GetOneAsync(
         string table,
         string keyName = _defaultKeyName, int keyValue = -1)
     {
         var bro = await RetryAsync(() => GameDataGetMyDataAsync(table));
         if (!IsSuccess(bro)) return (false, null);
 
-        var rows = GetRows(bro);
-        if (rows == null || rows.Count == 0) return (false, null);
-        
-        var match = rows.FirstOrDefault(r =>
-            r.TryGetValue(keyName, out var v) &&
-            v != null &&
-            v.ToString() == keyValue.ToString());
+        // var rows = GetRows(bro);
+        JsonData rows = bro.FlattenRows();
 
-        if (match == null) return (false, null);
-        return (true, match);
+        if (rows == null || rows.Count == 0) return (false, null);
+
+        // 단일 행
+        if (keyValue == -1)
+        {
+            return (true, rows[0]);
+        }
+
+        // 다중 행
+        foreach (JsonData row in rows)
+        {
+            if (int.Parse(row[keyName].ToString()) == keyValue)
+            {
+                return (true, row);
+            }
+        }
+
+        return (false, null);
     }
 
-    public static async Task<(bool ok, List<Dictionary<string, object>> rows)> GetManyAsync(string table)
+    public static async Task<(bool ok, JsonData rows)> GetManyAsync(string table)
     {
         var bro = await RetryAsync(() => GameDataGetMyDataAsync(table));
         if (!IsSuccess(bro)) return (false, null);
 
-        var rows = GetRows(bro);
+        // var rows = GetRows(bro);
+        JsonData rows = bro.FlattenRows();
         if (rows == null || rows.Count == 0) return (false, null);
 
         return (true, rows);
@@ -170,12 +189,11 @@ public static class BackendRepo
         }
     }
 
-    // 작은 편의 메서드
-    static async Task<bool> ThenIsSuccess(this Task<BackendReturnObject> t)
-    {
-        var bro = await t;
-        return IsSuccess(bro);
-    }
+    // static async Task<bool> ThenIsSuccess(this Task<BackendReturnObject> t)
+    // {
+    //     var bro = await t;
+    //     return IsSuccess(bro);
+    // }
 
 
 
@@ -196,6 +214,7 @@ public static class BackendRepo
                 }
 
                 var param = ToParam(row);
+                Debug.Log($"[BackendRepo] Upsert param: {JsonConvert.SerializeObject(row)}");
 
                 if (!IsSuccess(get) || IsEmpty(get))
                 {
@@ -404,6 +423,7 @@ public static class BackendRepo
         if (bro == null) return false;
         if (bro.IsSuccess()) return true;
         Debug.LogWarning($"[BackendRepo] API fail: {bro}");
+        Debug.LogError(Environment.StackTrace);
         return false;
     }
 

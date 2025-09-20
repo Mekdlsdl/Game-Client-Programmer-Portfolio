@@ -222,7 +222,6 @@ public class RecipeTabController : MonoBehaviour
         if (Managers.Data.User.TryConsumeCoin(cost))
         {
             Managers.Data.User.TryAddRecipe(id);
-            UserDataFile.Save(Managers.Data.User);
 
             _unlockRecipes.Add(id);
             SetData();
