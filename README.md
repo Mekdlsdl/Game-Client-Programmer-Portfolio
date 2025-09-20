@@ -11,7 +11,7 @@
 
 # 💻 프로젝트
 
-## 🍴 쿡앤몬스터: 할머니의 레시피
+## 🍴 쿡앤몬스터: 할머니의 레시피 ([상세내용](https://github.com/Mekdlsdl/Game-Client-Programmer-Portfolio/blob/main/DETAIL.md#-%EC%BF%A1%EC%95%A4%EB%AA%AC%EC%8A%A4%ED%84%B0-%ED%95%A0%EB%A8%B8%EB%8B%88%EC%9D%98-%EB%A0%88%EC%8B%9C%ED%94%BC))
 
 > 이븐아이 게임톤 참가작
 
@@ -32,7 +32,7 @@
 
 <br>
 
-## 🏭 Silo Manager
+## 🏭 Silo Manager ([상세내용](https://github.com/Mekdlsdl/Game-Client-Programmer-Portfolio/blob/main/DETAIL.md#-silo-manager))
 
 > ○○사료(주) 사일로(창고) 관리를 위한 애플리케이션 개발
 
