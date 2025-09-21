@@ -1059,13 +1059,13 @@ Firebase의 무료 요금제(Spark 플랜) 내에서 발생할 수 있는 제약
 
 ## 🔗 관련 자료
 
-[2023-2-융복합SW(서울)-졸업논문 - 문다인, 김민정, 김시완, 김하연, 홍주완.pdf](attachment:9afa939a-7ff1-4a47-85cd-9c9ef0935657:2023-2-융복합SW(서울)-졸업논문_-_문다인_김민정_김시완_김하연_홍주완.pdf)
+[2023-2-융복합SW(서울)-졸업논문 - 문다인, 김민정, 김시완, 김하연, 홍주완.pdf](https://github.com/Mekdlsdl/Game-Client-Programmer-Portfolio/blob/main/%EC%9E%90%EB%A3%8C/Code-Eat/2023-2-%EC%9C%B5%EB%B3%B5%ED%95%A9SW(%EC%84%9C%EC%9A%B8)-%EC%A1%B8%EC%97%85%EB%85%BC%EB%AC%B8%20-%20%EB%AC%B8%EB%8B%A4%EC%9D%B8%2C%20%EA%B9%80%EB%AF%BC%EC%A0%95%2C%20%EA%B9%80%EC%8B%9C%EC%99%84%2C%20%EA%B9%80%ED%95%98%EC%97%B0%2C%20%ED%99%8D%EC%A3%BC%EC%99%84.pdf)
 
-[b1 설계서.pdf](attachment:9de5fc72-031f-44cb-8aa7-7ebd10e8dee8:b1_설계서_최종.pdf)
+[b1 설계서.pdf](https://github.com/Mekdlsdl/Game-Client-Programmer-Portfolio/blob/main/%EC%9E%90%EB%A3%8C/Code-Eat/b1%20%EC%84%A4%EA%B3%84%EC%84%9C.pdf)
 
-[b1 최종발표.ppsx](attachment:73e9ca5e-a2aa-40ad-8e06-1ba0127100de:b1_최종발표_수정_5.ppsx)
+[b1 최종발표.ppsx](https://drive.google.com/file/d/1lsbRt_mdPMU7Vo6PxbNhkkrd4bqkrCy5/view?usp=drive_link)
 
-[b1 최종발표.pdf](attachment:d659db50-3210-4623-83b1-a363a086279c:b1_최종발표_최종.pdf)
+[b1 최종발표.pdf](https://github.com/Mekdlsdl/Game-Client-Programmer-Portfolio/blob/main/%EC%9E%90%EB%A3%8C/Code-Eat/b1%20%EC%B5%9C%EC%A2%85%EB%B0%9C%ED%91%9C.pdf)
 
 
 <br><br>
