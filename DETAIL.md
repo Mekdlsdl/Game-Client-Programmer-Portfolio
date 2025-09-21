@@ -43,6 +43,15 @@
 > 🔗 [관련 자료](https://github.com/Mekdlsdl/Game-Client-Programmer-Portfolio/blob/main/DETAIL.md#-%EA%B4%80%EB%A0%A8-%EC%9E%90%EB%A3%8C)
       </a>
       </td>
+      <td><a>🪡 [Skein of Revolution](https://github.com/Mekdlsdl/Game-Client-Programmer-Portfolio/blob/main/DETAIL.md#-skein-of-revolution) <br>
+
+> 🧩 [게임 개요](https://github.com/Mekdlsdl/Game-Client-Programmer-Portfolio/blob/main/DETAIL.md#-%EA%B2%8C%EC%9E%84-%EA%B0%9C%EC%9A%94-2) <br>
+✏️ [아쉬웠던 점과 회고](https://github.com/Mekdlsdl/Game-Client-Programmer-Portfolio/blob/main/DETAIL.md#%EF%B8%8F-%EC%95%84%EC%89%AC%EC%9B%A0%EB%8D%98-%EC%A0%90%EA%B3%BC-%ED%9A%8C%EA%B3%A0-1) <br>
+✅ [프로젝트에서 얻은 것](https://github.com/Mekdlsdl/Game-Client-Programmer-Portfolio/blob/main/DETAIL.md#-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8%EC%97%90%EC%84%9C-%EC%96%BB%EC%9D%80-%EA%B2%83-1) <br>
+🔨 [주요 개발 역할](https://github.com/Mekdlsdl/Game-Client-Programmer-Portfolio/blob/main/DETAIL.md#-%EC%A3%BC%EC%9A%94-%EA%B0%9C%EB%B0%9C-%EC%97%AD%ED%95%A0-2) <br>
+🛠️ [문제 해결 경험](https://github.com/Mekdlsdl/Game-Client-Programmer-Portfolio/blob/main/DETAIL.md#%EF%B8%8F-%EB%AC%B8%EC%A0%9C-%ED%95%B4%EA%B2%B0-%EA%B2%BD%ED%97%98-2) <br>
+💻 [코드 샘플](https://github.com/Mekdlsdl/Game-Client-Programmer-Portfolio/blob/main/DETAIL.md#-%EC%BD%94%EB%93%9C-%EC%83%98%ED%94%8C-3)
+</a></td>
     </tr>
   </tbody>
 </table>
