@@ -67,7 +67,7 @@
 
 <br>
 
-## 🪡 Skein of Revolution
+## 🪡 Skein of Revolution ([상세내용](https://github.com/Mekdlsdl/Game-Client-Programmer-Portfolio/blob/main/DETAIL.md#-skein-of-revolution))
 > 넥슨X멋쟁이사자처럼 해커톤 참가작 (기한 내 출시 완료) <br>
 ( 2022.09.07 ~ 2022.12.16 )
   
