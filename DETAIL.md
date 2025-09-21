@@ -9,7 +9,7 @@
 <table>
   <tbody>
     <tr>
-      <td>
+      <td valign="top">
        <a>
         
  🍴 [쿡앤몬스터: 할머니의 레시피](https://github.com/Mekdlsdl/Game-Client-Programmer-Portfolio/blob/main/DETAIL.md#-%EC%BF%A1%EC%95%A4%EB%AA%AC%EC%8A%A4%ED%84%B0-%ED%95%A0%EB%A8%B8%EB%8B%88%EC%9D%98-%EB%A0%88%EC%8B%9C%ED%94%BC) <br>
@@ -21,7 +21,7 @@
   💻 [코드 샘플](https://github.com/Mekdlsdl/Game-Client-Programmer-Portfolio/blob/main/DETAIL.md#-%EC%BD%94%EB%93%9C-%EC%83%98%ED%94%8C)
        </a>
       </td>
-      <td>
+      <td valign="top">
       <a>
  🏭 [Silo Manager](https://github.com/Mekdlsdl/Game-Client-Programmer-Portfolio/blob/main/DETAIL.md#-silo-manager) <br>
  
@@ -31,7 +31,7 @@
  💻 [코드 샘플](https://github.com/Mekdlsdl/Game-Client-Programmer-Portfolio/blob/main/DETAIL.md#-%EC%BD%94%EB%93%9C-%EC%83%98%ED%94%8C-1)
       </a>
       </td>
-            <td>
+            <td valign="top">
       <a>
       🎮 [Code-Eat](https://github.com/Mekdlsdl/Game-Client-Programmer-Portfolio/blob/main/DETAIL.md#-code-eat) <br>
 
@@ -43,7 +43,7 @@
 > 🔗 [관련 자료](https://github.com/Mekdlsdl/Game-Client-Programmer-Portfolio/blob/main/DETAIL.md#-%EA%B4%80%EB%A0%A8-%EC%9E%90%EB%A3%8C)
       </a>
       </td>
-      <td><a>🪡 [Skein of Revolution](https://github.com/Mekdlsdl/Game-Client-Programmer-Portfolio/blob/main/DETAIL.md#-skein-of-revolution) <br>
+      <td valign="top"><a>🪡 [Skein of Revolution](https://github.com/Mekdlsdl/Game-Client-Programmer-Portfolio/blob/main/DETAIL.md#-skein-of-revolution) <br>
 
 > 🧩 [게임 개요](https://github.com/Mekdlsdl/Game-Client-Programmer-Portfolio/blob/main/DETAIL.md#-%EA%B2%8C%EC%9E%84-%EA%B0%9C%EC%9A%94-2) <br>
 ✏️ [아쉬웠던 점과 회고](https://github.com/Mekdlsdl/Game-Client-Programmer-Portfolio/blob/main/DETAIL.md#%EF%B8%8F-%EC%95%84%EC%89%AC%EC%9B%A0%EB%8D%98-%EC%A0%90%EA%B3%BC-%ED%9A%8C%EA%B3%A0-1) <br>
