@@ -127,8 +127,7 @@ public class BackendLogin : MonoBehaviour
             // 처음이면 한번 upsert하고 가기
             successMessage.text = "데이터 세팅 중...";
             var userData = new UserData();
-            var s = UserDataFile.SaveAllAsync(userData);
-            yield return new WaitUntil(() => s.IsCompleted);
+            yield return UserDataFile.SaveAllAsync(userData);
 
             // 바로 반영
             var flushTask = BackendRepo.FlushOnceAsync();

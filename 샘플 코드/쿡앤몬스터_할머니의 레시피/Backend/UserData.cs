@@ -2,8 +2,10 @@
  * UserData에 항목 추가 시 MakeDefaultData 함수 업데이트 필수!!
  */
 
+using BackEnd;
 using BackEnd.BackndLitJson;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -112,17 +114,14 @@ public class UserData // 임시 초기값은 여기서 지정
     public Dictionary<NoticeType, DateTime> LastShownAt = new Dictionary<NoticeType, DateTime>();
 
 
-    // /// <summary>
-    // /// 클리어한 스테이지 정보들
-    // /// </summary>
-    // public List<StageClearInfo> StageClearInfos = new List<StageClearInfo>();
 
-    // [System.Serializable]
-    // public class StageClearInfo
-    // {
-    //     public int StageKey;    // 스테이지 key
-    //     public int Star;        // 별 개수
-    // }
+    // =============== user_store ===============
+    // 추가될 가능성 있고 업데이트 시간 파악을 위해 따로 만듦!
+    /// 상점 구매 제한 잔여 횟수 (상품id, 횟수)
+    public Dictionary<int, int> RemainingLimit = new Dictionary<int, int>();
+
+
+
     // =============== user_stageclear ===============
     public Dictionary<int, StageClear> StageClears = new Dictionary<int, StageClear> {
             { 5001 , new StageClear() } 
@@ -148,9 +147,6 @@ public class UserData // 임시 초기값은 여기서 지정
 
         // 처음 클리어했는지 (재시도 여부)
         public bool FirstCleared = false;
-
-        // 업데이트 시간
-        // public DateTime UpdatedAt;
     }
 
 
@@ -168,8 +164,9 @@ public class UserData // 임시 초기값은 여기서 지정
         public bool isMuted = false;
     }
 
-    
+
     public event Action<int> CoinChanged;
+    public event Action<int> DiaChanged;
 
 
     public bool TrySetUserName(string userName)
@@ -231,6 +228,16 @@ public class UserData // 임시 초기값은 여기서 지정
         return true;
     }
 
+    public bool TryAddDia(int cost)
+    {
+        Dia += cost;
+        DiaChanged?.Invoke(cost);
+        Debug.Log($"다이아 {cost} 획득! 현재 다이아: {Dia}");
+        _ = UserDataFile.SaveBaseAsync(this);
+
+        return true;
+    }
+    
     public bool TrySetHasSeenNotice(NoticeType notice, bool hasSeen)
     {
         // key가 없거나 값이 같으면 return false
@@ -278,6 +285,14 @@ public class UserData // 임시 초기값은 여기서 지정
         return true;
     }
 
+    public bool TrySetRemainingLimit(int id, int remain)
+    {
+        RemainingLimit[id] = remain;
+        _ = UserDataFile.SaveStoreAsync(this);
+
+        return true;
+    }
+
     public bool TryStageClear()
     {
         CurrentStageKey = Managers.Session.CurrentStageKey;
@@ -314,7 +329,6 @@ public class UserData // 임시 초기값은 여기서 지정
         // sc.BestTimeMs = math.min(sc.BestTimeMs, );
 
         sc.FirstCleared = true;
-        // sc.UpdatedAt = DateTime.Now;
 
         _ = UserDataFile.SaveStageClearAsync(this, stageId); 
     }
@@ -426,7 +440,18 @@ public static class UserDataFile
             }
 
 
-            // 5) user_stageclear - 스테이지 클리어 관련 정보 (별, 최고기록 등)
+            // 5) user_store - 상점 관련 정보
+            if (dataTable == DataTableName.all || dataTable == DataTableName.user_store)
+            {
+                var storeRow = await BackendRepo.GetOneAsync(DataTableName.user_store.ToString());
+                if (storeRow.ok && storeRow.row != null)
+                {
+                    var r = storeRow.row;
+                    data.RemainingLimit = BackendRepo.FromJson<Dictionary<int, int>>(r["RemainingLimit"].ToString());
+                }
+            }
+
+            // 6) user_stageclear - 스테이지 클리어 관련 정보 (별, 최고기록 등)
             if (dataTable == DataTableName.all || dataTable == DataTableName.user_stageclear)
             {
                 var (ok, rows) = await BackendRepo.GetManyAsync(DataTableName.user_stageclear.ToString());
@@ -465,7 +490,7 @@ public static class UserDataFile
             if (Migrate(data, data.Version, CURRENT_VERSION) || data.Version != CURRENT_VERSION)
             {
                 data.Version = CURRENT_VERSION;
-                await SaveAllAsync(data);
+                Save(data);
 
                 return data;
             }
@@ -492,15 +517,18 @@ public static class UserDataFile
         return changed;
     }
 
+    private static bool _isSuccessAllSave = false;
 
     // 기존 함수 연결
-    public static void Save(UserData userData)
+    public static IEnumerator SaveAllAsync(UserData userData)
     {
-        _ = SaveAllAsync(userData);
+        _isSuccessAllSave = false;
+        Save(userData);
+        yield return new WaitUntil(() => _isSuccessAllSave);
     }
 
     // 모든 데이터 전체 저장 (잘 안쓸듯)
-    public static async Task SaveAllAsync(UserData userData)
+    public static void Save(UserData userData)
     {
         try
         {
@@ -510,17 +538,82 @@ public static class UserDataFile
                 return;
             }
 
-            // 테이블별 저장 (await로 순차 처리, 필요시 WhenAll로 병렬화 가능)
-            await SaveBaseAsync(userData);
-            await SaveStatsAsync(userData);
-            await SaveRecipeAsync(userData);
-            await SaveEnergyAsync(userData);
-            await SaveTutorialAsync(userData);
+            var tran = new List<TransactionValue>();
 
-            // 스테이지 여러개 한번에 저장
-            await SaveStageClearAllAsync(userData);
+            // user_base
+            var baseRow = new Param();
+            baseRow.Add("Version", userData.Version);
+            baseRow.Add("UserName", userData.UserName);
+            baseRow.Add("StageLevel", userData.StageLevel);
+            baseRow.Add("CurrentStageKey", userData.CurrentStageKey);
+            baseRow.Add("Coin", userData.Coin);
+            baseRow.Add("Dia", userData.Dia);
+            tran.Add(TransactionValue.SetInsert(DataTableName.user_base.ToString(), baseRow));
 
-            // setting은 로컬 파일
+            // user_stats
+            var statsRow = new Param();
+            statsRow.Add("HpLevel", userData.HpLevel);
+            statsRow.Add("MaxHp", userData.MaxHp);
+            statsRow.Add("AtkLevel", userData.AtkLevel);
+            statsRow.Add("Atk", userData.Atk);
+            statsRow.Add("MoveSpeedLevel", userData.MoveSpeedLevel);
+            statsRow.Add("MoveSpeed", userData.MoveSpeed);
+            statsRow.Add("AtkSpeedLevel", userData.AtkSpeedLevel);
+            statsRow.Add("AtkSpeed", userData.AtkSpeed);
+            statsRow.Add("BagSizeLevel", userData.BagSizeLevel);
+            statsRow.Add("BagSize", userData.BagSize);
+            statsRow.Add("CriticalLevel", userData.CriticalLevel);
+            statsRow.Add("Critical", userData.Critical);
+            tran.Add(TransactionValue.SetInsert(DataTableName.user_stats.ToString(), statsRow));
+
+            // user_recipe
+            var recipeRow = new Param();
+            recipeRow.Add("UnlockRecipes", BackendRepo.ToJson(userData.UnlockRecipes));
+            recipeRow.Add("SelectRecipes", BackendRepo.ToJson(userData.SelectRecipes));
+            recipeRow.Add("HadReceivedRefund", BackendRepo.ToJson(userData.HadReceivedRefund));
+            tran.Add(TransactionValue.SetInsert(DataTableName.user_recipe.ToString(), recipeRow));
+
+            // user_energy
+            var energyRow = new Param();
+            energyRow.Add("CurrentHearts", userData.CurrentHearts);
+            energyRow.Add("LastTs", userData.LastTs);
+            tran.Add(TransactionValue.SetInsert(DataTableName.user_energy.ToString(), energyRow));
+
+            // user_tutorial
+            var tutRow = new Param();
+            tutRow.Add("TutorialVersion", userData.TutorialVersion);
+            tutRow.Add("HasSeenNotice", BackendRepo.ToJson(userData.HasSeenNotice));
+            tutRow.Add("LastShownAt", BackendRepo.ToJson(userData.LastShownAt));
+            tran.Add(TransactionValue.SetInsert(DataTableName.user_tutorial.ToString(), tutRow));
+
+            // user_store
+            var storeRow = new Param();
+            storeRow.Add("RemainingLimit", BackendRepo.ToJson(userData.RemainingLimit));
+            tran.Add(TransactionValue.SetInsert(DataTableName.user_store.ToString(), storeRow));
+
+            // user_stageclear (여러 행)
+            foreach (var sc in userData.StageClears.Values)
+            {
+                var scRow = new Param();
+                scRow.Add("StageId", sc.StageId);
+                scRow.Add("ClearCount", sc.ClearCount);
+                scRow.Add("Star", sc.Star);
+                scRow.Add("BestScore", sc.BestScore);
+                scRow.Add("BestTimeMs", sc.BestTimeMs);
+                scRow.Add("FirstCleared", sc.FirstCleared);
+                tran.Add(TransactionValue.SetInsert(DataTableName.user_stageclear.ToString(), scRow));
+            }
+
+            // 트랜잭션 실행
+            var bro = Backend.GameData.TransactionWriteV2(tran);
+            if (!bro.IsSuccess())
+            {
+                Debug.LogError($"SaveAll Transaction failed: {bro}");
+            }
+
+            _isSuccessAllSave = true;
+
+            // 로컬 데이터 세팅
             SaveSettingsLocal(userData.setting);
         }
         catch (Exception e)
@@ -528,6 +621,36 @@ public static class UserDataFile
             Debug.LogError($"User data save failed.\n{e}");
         }
     }
+
+    // public static async Task SaveAllAsync(UserData userData)
+    // {
+    //     try
+    //     {
+    //         if (userData == null)
+    //         {
+    //             Debug.LogError("Save failed. user data is null.");
+    //             return;
+    //         }
+
+    //         // 테이블별 저장 (await로 순차 처리, 필요시 WhenAll로 병렬화 가능)
+    //         await SaveBaseAsync(userData);
+    //         await SaveStatsAsync(userData);
+    //         await SaveRecipeAsync(userData);
+    //         await SaveEnergyAsync(userData);
+    //         await SaveTutorialAsync(userData);
+    //         await SaveStoreAsync(userData);
+
+    //         // 스테이지 여러개 한번에 저장
+    //         await SaveStageClearAllAsync(userData);
+
+    //         // setting은 로컬 파일
+    //         SaveSettingsLocal(userData.setting);
+    //     }
+    //     catch (Exception e)
+    //     {
+    //         Debug.LogError($"User data save failed.\n{e}");
+    //     }
+    // }
 
 
     // user_base 저장
@@ -601,6 +724,16 @@ public static class UserDataFile
         await BackendRepo.UpsertAsync(DataTableName.user_tutorial.ToString(), row);
     }
 
+    // user_store 저장
+    public static async Task SaveStoreAsync(UserData userData)
+    {
+        var row = new Dictionary<string, object>
+        {
+            ["RemainingLimit"] = BackendRepo.ToJson(userData.RemainingLimit)
+        };
+        await BackendRepo.UpsertAsync(DataTableName.user_store.ToString(), row);
+    }
+
     // user_stageclear 저장
     // 스테이지 하나만 저장
     public static async Task SaveStageClearAsync(UserData userData, int stageId)
@@ -616,8 +749,7 @@ public static class UserDataFile
             ["Star"] = sc.Star,
             ["BestScore"] = sc.BestScore,
             ["BestTimeMs"] = sc.BestTimeMs,
-            ["FirstCleared"] = sc.FirstCleared,
-            // ["UpdatedAt"] = sc.UpdatedAt,        // datetime 컬럼
+            ["FirstCleared"] = sc.FirstCleared
         };
 
         // 다중행 Upsert: (table, keyName, keyValue, row)
@@ -642,8 +774,7 @@ public static class UserDataFile
                 ["ClearCount"] = sc.ClearCount,
                 ["Star"]       = sc.Star,
                 ["BestScore"]  = sc.BestScore,
-                ["BestTimeMs"] = sc.BestTimeMs,
-                // ["UpdatedAt"]  = sc.UpdatedAt,
+                ["BestTimeMs"] = sc.BestTimeMs
             };
 
             tasks.Add(BackendRepo.UpsertByKeyAsync(

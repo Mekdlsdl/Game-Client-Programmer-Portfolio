@@ -21,6 +21,7 @@ public enum DataTableName
     user_recipe,        // 해금 레시피, 메뉴판, (보상금 수령 여부)
     user_energy,        // 하트 관련 정보
     user_tutorial,      // 튜토리얼 안내 메시지 관련 정보
+    user_store,         // 상점 관련 정보
     single_row,         // 단일 행 테이블 개수 받을 때 사용
 
     //=============== 다중 행 ===============

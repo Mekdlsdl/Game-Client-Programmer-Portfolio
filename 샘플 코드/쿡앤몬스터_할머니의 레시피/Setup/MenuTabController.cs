@@ -69,7 +69,9 @@ public class MenuTabController : MonoBehaviour
             {
                 hasExcluded = true;
                 refund += Managers.Data.Recipes.GetByKey(id).Cost / 2;
-                // Managers.Data.User.TryChangeMenu(i, id);
+                
+                if (Managers.Data.User.TryChangeMenu(i, -1))
+                
                 continue;
             }
 
@@ -78,8 +80,9 @@ public class MenuTabController : MonoBehaviour
 
         if (!Managers.Data.User.HadReceivedRefund[1] && hasExcluded)
         {
-            LobbyManager.Instance.ActivateErrorPopup("아직 열리지 않은 레시피를\n메뉴판에서 발견했어요.");
-            StartCoroutine(SetUpController.Instance.PayRefund(1, refund));
+            // LobbyManager.Instance.ActivateErrorPopup("아직 열리지 않은 레시피를\n메뉴판에서 발견했어요.");
+            string message = "아직 열리지 않은 레시피를\n메뉴판에서 발견했어요.";
+            StartCoroutine(SetUpController.Instance.PayRefund(1, refund, message));
             return;
         }
     }
@@ -261,9 +264,6 @@ public class MenuTabController : MonoBehaviour
 
 
         if (Managers.Data.User.TryChangeMenu(_currentMenuIdx, id))
-        {
-            UserDataFile.Save(Managers.Data.User);
-        }
 
 
         // 메뉴판 버튼 세팅
@@ -348,7 +348,7 @@ public class MenuTabController : MonoBehaviour
             return false;
         }
 
-        if (Managers.Session.StageLevel == 5000 && gradeCount[0] + gradeCount[1] + gradeCount[2] < 3)
+        if (Managers.Session.CurrentStageKey == 5000 && gradeCount[0] + gradeCount[1] + gradeCount[2] < 3)
         {
             // 에러 팝업 띄우기
             errorMessage = "안 돼요!\n메뉴 변경은 튜토리얼 이후에 가능합니다.";

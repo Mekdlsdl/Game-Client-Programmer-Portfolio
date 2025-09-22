@@ -253,6 +253,7 @@ public class InventoryManager : MonoBehaviour
         if (_inventoryPopup.activeSelf && !BinManager.Instance.IsOpen)
         {
             HideInventory();
+            _panel.SetActive(false);
             return;
         }
 
@@ -260,6 +261,7 @@ public class InventoryManager : MonoBehaviour
 
         Debug.Log($"Bin 상태 = {BinManager.Instance.IsOpen}");
         _inventoryPopup.SetActive(true);
+        _panel.SetActive(true);
     }
 
     public void SyncInventory()

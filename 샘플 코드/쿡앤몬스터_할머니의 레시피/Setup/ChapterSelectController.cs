@@ -33,8 +33,8 @@ public class ChapterSelectController : MonoBehaviour
 
     private List<string> _chapterNames = new List<string> // 나중에 데테 나오게 되면 교체
     {
-        "붉은 모래 행성 바라칸", "프리지노스 빙원", "실바니아 행성", "사막의 행성 아레나스",
-        "보라고스의 요새", "테라코타 황토 협곡", "인페르니스 용암 행성"
+        "붉은모래 행성 바라칸", "얼음의 행성 프리지노스", "초원의 행성 실바니아", "사막의 행성 아레나스",
+        "제노스의 요새", "황토 협곡 테라코타", "용암의 행성 인페르니스"
     };
 
 
@@ -113,7 +113,7 @@ public class ChapterSelectController : MonoBehaviour
             .Where(k => k.Value.Chapter == chapId + 1)
             .OrderBy(k => k.Key).ToList();
         int totalStage = stageList.Count;
-        LobbyManager.Instance.ActivateErrorPopup($"스테이지 총 {totalStage}개");
+        // LobbyManager.Instance.ActivateErrorPopup($"스테이지 총 {totalStage}개");
 
         int cnt = -1;
         int i = 0;

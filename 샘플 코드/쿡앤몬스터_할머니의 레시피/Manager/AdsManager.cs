@@ -10,8 +10,11 @@ public class AdsManager : MonoBehaviour
     public static AdsManager Instance { get; private set; }
 
     public string AD_UNIT_ID = "ca-app-pub-3940256099942544/5224354917";
+    public bool IsCompleted => _isCompleted;
+    public bool IsAdStarted => _isAdStarted;
 
-    
+    private bool _isCompleted = false;
+    private bool _isAdStarted = false;
     private Stopwatch stopwatch = new Stopwatch();
 
     void Awake()
@@ -27,9 +30,11 @@ public class AdsManager : MonoBehaviour
     }
     void Start()
     {
+        // 처음에 미리 한번 로드
+        InitLoad();
     }
 
-    public void LoadAds()
+    public void InitLoad()
     {
         var adRequest = new AdRequest(); // 요청
 
@@ -43,9 +48,38 @@ public class AdsManager : MonoBehaviour
                 return;
             }
             UnityEngine.Debug.Log("광고 로드 성공");
-            ShowAd(ad);
-            // ListenToAdEvents(ad);
         });
+    }
+    
+    public void LoadAds()
+    {
+        if (_isAdStarted) return;
+
+        _isAdStarted = true;
+        var adRequest = new AdRequest(); // 요청
+
+        // 광고 로드 요청
+        RewardedAd.Load(AD_UNIT_ID, adRequest, (RewardedAd ad, LoadAdError error) =>
+        {
+            if (error != null)
+            {
+                UnityEngine.Debug.Log("광고 로드 실패");
+                DestroyAd(ad);
+                return;
+            }
+            UnityEngine.Debug.Log("광고 로드 성공");
+            ShowAd(ad);
+        });
+    }
+
+    public IEnumerator WaitUntilAdCompleted()
+    {
+        yield return new WaitUntil(() => _isCompleted);
+    }
+
+    public void SetIsCompleted(bool b)
+    {
+        _isCompleted = b;
     }
 
     void ShowAd(RewardedAd rewardedAd)
@@ -61,6 +95,9 @@ public class AdsManager : MonoBehaviour
             {
                 stopwatch.Stop();
                 double elapsed = stopwatch.Elapsed.TotalSeconds;
+
+                _isCompleted = true;
+                _isAdStarted = false;
         
                 // 광고 나옴, 유저 보상 받음
                 UnityEngine.Debug.Log("광고 보상");
@@ -120,8 +157,15 @@ public class AdsManager : MonoBehaviour
             var adRequest = new AdRequest();
             RewardedAd.Load(AD_UNIT_ID, adRequest, (RewardedAd ad, LoadAdError error) =>
             {
-                // Handle ad loading here.
                 UnityEngine.Debug.Log("다음 광고 준비 중");
+
+                if (error != null)
+                {
+                    UnityEngine.Debug.Log("광고 로드 실패");
+                    DestroyAd(ad);
+                    return;
+                }
+                UnityEngine.Debug.Log("광고 준비 완료");
             });
         };
     }
