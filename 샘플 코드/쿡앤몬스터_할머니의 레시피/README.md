@@ -11,8 +11,7 @@
 <br>
   
 ## ☁️ Backend : 서버 연동 관련 코드들
-> https://docs.backnd.com/sdk-docs/backend/base/optimize-cost/#%EA%B3%B5%ED%86%B5
-> 뒤끝 최적화 가이드에 맞춰 구현했습니다.
+> [뒤끝 최적화 가이드](https://docs.backnd.com/sdk-docs/backend/base/optimize-cost/#%EA%B3%B5%ED%86%B5)에 맞춰 구현했습니다.
 - BackendLogin : 구글 로그인 및 이후 동작 관련 코드
 - BackendManager : 뒤끝 초기화 및 로그인 설정 관리
 - BackendRepo : 서버 조회 및 저장(유저 데이터) 관련 코드
