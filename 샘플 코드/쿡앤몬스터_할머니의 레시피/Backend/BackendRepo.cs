@@ -46,7 +46,7 @@ public static class BackendRepo
     static readonly int BaseDelayMs = 300;          // 백오프 시작 딜레이
     static readonly int MaxQueueSize = 500;         // 오프라인 큐 최대 적재 개수
     static readonly string QueueFilePath = Path.Combine(Application.persistentDataPath, "backend_offline_queue.jsonl");
-    static readonly TimeSpan FlushInterval = TimeSpan.FromSeconds(8); // 백그라운드 전송 간격
+    static readonly TimeSpan FlushInterval = TimeSpan.FromMinutes(10); // 백그라운드 전송 간격
 
 
     // ========= 오프라인 큐 =========
@@ -509,18 +509,15 @@ public static class BackendRepo
 
     static bool IsTransient(BackendReturnObject bro)
     {
-        // 네트워크/타임아웃/서버오류(5xx) 등.. 재시도 가치가 있는가..?
-        // TODO : 프로젝트 기준으로 뒤끝 에러 코드를 매핑해 사용 (일단 아주 나중에,,)
-        // 여기선 보수적으로 대부분 재시도 대상으로 간주.
-
         if (bro == null) return true;
+        var code = bro.GetStatusCode();
+        // 네트워크/일시적 오류만 true
+        if (code.Contains("408") || code.Contains("500") || code.Contains("502") || code.Contains("503")) return true;
+        return false; // 그 외는 영구 오류
 
-        string msg = bro.GetMessage();
-
-        if (string.IsNullOrEmpty(msg)) return true;
-
-        msg = msg.ToLowerInvariant();
-
-        return msg.Contains("timeout") || msg.Contains("network") || msg.Contains("temporarily");
+        // string msg = bro.GetMessage();
+        // if (string.IsNullOrEmpty(msg)) return true;
+        // msg = msg.ToLowerInvariant();
+        // return msg.Contains("timeout") || msg.Contains("network") || msg.Contains("temporarily");
     }
 }

@@ -3,8 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-
 
 // 뒤끝 SDK namespace 추가
 using BackEnd;
@@ -15,9 +15,10 @@ public class BackendManager : MonoBehaviour
     public bool IsAuthorized { get; private set; } = false;
     public UserData CurrentUser { get; private set; }
 
-
-    [SerializeField] private GameObject _loginPanel;
     [SerializeField] private GameObject _loginButton;
+    [SerializeField] private GameObject _loadingPanel;
+    [SerializeField] private GameObject _loadingPlayer;
+    [SerializeField] private Image _loadingBar;
 
     
     void Awake()
@@ -82,6 +83,7 @@ public class BackendManager : MonoBehaviour
         CurrentUser = user;
         // BackendLogin.Instance.successMessage.text = "로그인 성공";
         IsAuthorized = true;
+        _loginButton.SetActive(false);
     }
 
     // 코루틴에서 기다릴 때 사용
@@ -89,6 +91,45 @@ public class BackendManager : MonoBehaviour
     {
         // BackendLogin.Instance.successMessage.text = "로그인 성공 기다리는 중";
         yield return new WaitUntil(() => IsAuthorized);
+    }
+
+    public void TapToStartClick()
+    {
+        // SceneManager.LoadScene("LobbyScene");
+        StartCoroutine(LoadSceneProcess());
+    }
+
+    private IEnumerator LoadSceneProcess()
+    {
+        _loadingPanel.SetActive(true);
+        _loadingPlayer.SetActive(true);
+        _loadingBar.fillAmount = 0f;
+
+        AsyncOperation op = SceneManager.LoadSceneAsync("LobbyScene");
+        op.allowSceneActivation = false;
+
+        float time = 0f;
+        while(!op.isDone)
+        {
+            yield return null;
+            _loadingBar.fillAmount = op.progress;
+
+            if (op.progress > 0.8f)
+            {
+                time += Time.deltaTime / 1f;
+                _loadingBar.fillAmount = Mathf.Lerp(0.8f, 1f, time);
+                _loadingBar.fillAmount = 1f;
+
+                yield return new WaitUntil(() => _loadingBar.fillAmount == 1f);
+                
+                // _loadingPanel.SetActive(false);
+                // _loadingPlayer.SetActive(false);
+
+                op.allowSceneActivation = true;
+
+                yield break;
+            }
+        }
     }
 
     async void OnApplicationPause(bool pause)
